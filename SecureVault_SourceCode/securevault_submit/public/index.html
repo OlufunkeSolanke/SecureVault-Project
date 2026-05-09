@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecureVault</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #1a3c6e;
+      --accent: #2e75b6;
+      --danger: #c0392b;
+      --success: #27ae60;
+      --bg: #f4f6fa;
+      --card: #ffffff;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+      --border: #dce3ed;
+    }
+    body { font-family: Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .container { width: 100%; max-width: 420px; padding: 1rem; }
+    .card { background: var(--card); border-radius: 12px; box-shadow: 0 4px 24px rgba(26,60,110,0.10); padding: 2.5rem 2rem; }
+    .logo { text-align: center; margin-bottom: 2rem; }
+    .logo h1 { color: var(--primary); font-size: 1.8rem; font-weight: 800; }
+    .logo p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    .tabs { display: flex; border-bottom: 2px solid var(--border); margin-bottom: 1.8rem; }
+    .tab { flex: 1; padding: 0.6rem; text-align: center; cursor: pointer; color: var(--muted); font-weight: 600; font-size: 0.95rem; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .2s; }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--primary); margin-bottom: 5px; }
+    input { width: 100%; padding: 0.7rem 0.9rem; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.95rem; color: var(--text); transition: border-color .2s; }
+    input:focus { outline: none; border-color: var(--accent); }
+    .btn { width: 100%; padding: 0.75rem; border: none; border-radius: 7px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background .2s; margin-top: 0.5rem; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--accent); }
+    .msg { text-align: center; font-size: 0.88rem; margin-top: 1rem; padding: 0.6rem; border-radius: 6px; display: none; }
+    .msg.error { background: #fde8e7; color: var(--danger); display: block; }
+    .msg.success { background: #e8f8ef; color: var(--success); display: block; }
+    .hint { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+    /* Dashboard */
+    #dashboard { display: none; }
+    .dash-container { max-width: 720px; width: 100%; padding: 1rem; }
+    .dash-header { background: var(--primary); color: #fff; border-radius: 12px 12px 0 0; padding: 1.2rem 1.6rem; display: flex; align-items: center; justify-content: space-between; }
+    .dash-header h2 { font-size: 1.2rem; }
+    .dash-body { background: var(--card); border-radius: 0 0 12px 12px; padding: 1.6rem; box-shadow: 0 4px 24px rgba(26,60,110,0.10); }
+    .note-form { background: var(--bg); border-radius: 8px; padding: 1.2rem; margin-bottom: 1.5rem; }
+    .note-form h3 { font-size: 1rem; color: var(--primary); margin-bottom: 1rem; }
+    .note-form input, .note-form textarea { width: 100%; padding: 0.6rem 0.8rem; border: 1.5px solid var(--border); border-radius: 6px; font-size: 0.9rem; margin-bottom: 0.8rem; font-family: Arial, sans-serif; }
+    .note-form textarea { height: 80px; resize: vertical; }
+    .btn-sm { padding: 0.5rem 1.1rem; border: none; border-radius: 6px; font-size: 0.88rem; font-weight: 700; cursor: pointer; }
+    .btn-create { background: var(--primary); color: #fff; }
+    .note-card { border: 1.5px solid var(--border); border-radius: 8px; padding: 1rem 1.2rem; margin-bottom: 0.9rem; }
+    .note-card h4 { font-size: 0.95rem; color: var(--primary); margin-bottom: 6px; }
+    .note-card p { font-size: 0.88rem; color: var(--text); white-space: pre-wrap; }
+    .note-card .meta { font-size: 0.75rem; color: var(--muted); margin-top: 8px; display: flex; justify-content: space-between; }
+    .btn-del { background: #fde8e7; color: var(--danger); border: none; padding: 3px 10px; border-radius: 5px; cursor: pointer; font-size: 0.78rem; font-weight: 700; }
+    .btn-logout { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); padding: 0.4rem 0.9rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+    .empty { text-align: center; color: var(--muted); padding: 2rem; font-size: 0.9rem; }
+    .security-badge { font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 1.2rem; }
+  </style>
+</head>
+<body>
+
+<!-- AUTH PAGE -->
+<div id="auth-page" class="container">
+  <div class="card">
+    <div class="logo">
+      <h1>SecureVault</h1>
+      <p>Secure note management system</p>
+    </div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('login')">Login</div>
+      <div class="tab" onclick="switchTab('register')">Register</div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="login-form">
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="login-pass" placeholder="Enter your password" autocomplete="current-password" />
+      </div>
+      <button class="btn btn-primary" onclick="login()">Login Securely</button>
+      <div id="login-msg" class="msg"></div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="register-form" style="display:none">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="reg-name" placeholder="Your name" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="reg-pass" placeholder="Min 8 chars, uppercase, number, symbol" autocomplete="new-password" />
+        <div class="hint">Must include: uppercase letter, number, and special character (!@#$%^&*)</div>
+      </div>
+      <button class="btn btn-primary" onclick="register()">Create Account</button>
+      <div id="reg-msg" class="msg"></div>
+    </div>
+
+    <div class="security-badge">Protected by JWT authentication and bcrypt encryption</div>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="dashboard" style="display:none">
+  <div class="dash-container">
+    <div class="dash-header">
+      <h2 id="dash-greeting">My SecureVault</h2>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+    <div class="dash-body">
+      <div class="note-form">
+        <h3>Add New Note</h3>
+        <input type="text" id="note-title" placeholder="Note title..." maxlength="100" />
+        <textarea id="note-content" placeholder="Write your note here..." maxlength="5000"></textarea>
+        <button class="btn-sm btn-create" onclick="createNote()">Save Note</button>
+        <div id="note-msg" class="msg"></div>
+      </div>
+      <div id="notes-list"><div class="empty">No notes yet. Create your first secure note above.</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let token = localStorage.getItem('sv_token');
+  let currentUser = JSON.parse(localStorage.getItem('sv_user') || 'null');
+
+  // Restore session on page load
+  if (token && currentUser) showDashboard();
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', (i === 0) === (tab === 'login')));
+    document.getElementById('login-form').style.display = tab === 'login' ? '' : 'none';
+    document.getElementById('register-form').style.display = tab === 'register' ? '' : 'none';
+  }
+
+  function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = 'msg ' + type;
+  }
+
+  async function login() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-pass').value;
+    try {
+      const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+      const data = await res.json();
+      if (!res.ok) return showMsg('login-msg', data.error, 'error');
+      token = data.token;
+      currentUser = data.user;
+      localStorage.setItem('sv_token', token);
+      localStorage.setItem('sv_user', JSON.stringify(currentUser));
+      showDashboard();
+    } catch { showMsg('login-msg', 'Network error. Please try again.', 'error'); }
+  }
+
+  async function register() {
+    const name = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-pass').value;
+    try {
+      const res = await fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email, password }) });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.details ? data.details.map(d => d.message).join(', ') : data.error;
+        return showMsg('reg-msg', msg, 'error');
+      }
+      showMsg('reg-msg', 'Account created! Please login.', 'success');
+      setTimeout(() => switchTab('login'), 1500);
+    } catch { showMsg('reg-msg', 'Network error. Please try again.', 'error'); }
+  }
+
+  function showDashboard() {
+    document.getElementById('auth-page').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'flex';
+    document.getElementById('dashboard').style.justifyContent = 'center';
+    document.getElementById('dashboard').style.alignItems = 'flex-start';
+    document.getElementById('dashboard').style.paddingTop = '2rem';
+    document.getElementById('dash-greeting').textContent = `Welcome, ${currentUser.name}`;
+    loadNotes();
+  }
+
+  function logout() {
+    token = null; currentUser = null;
+    localStorage.removeItem('sv_token'); localStorage.removeItem('sv_user');
+    document.getElementById('auth-page').style.display = 'flex';
+    document.getElementById('dashboard').style.display = 'none';
+  }
+
+  async function loadNotes() {
+    try {
+      const res = await fetch('/api/notes', { headers: { Authorization: `Bearer ${token}` } });
+      if (res.status === 401) return logout();
+      const data = await res.json();
+      renderNotes(data.notes);
+    } catch {}
+  }
+
+  function renderNotes(notes) {
+    const container = document.getElementById('notes-list');
+    if (!notes.length) { container.innerHTML = '<div class="empty">No notes yet. Create your first secure note above.</div>'; return; }
+    container.innerHTML = notes.map(n => `
+      <div class="note-card">
+        <h4>${escapeHtml(n.title)}</h4>
+        <p>${escapeHtml(n.content)}</p>
+        <div class="meta">
+          <span>Created: ${new Date(n.createdAt).toLocaleDateString()}</span>
+          <button class="btn-del" onclick="deleteNote('${n.id}')">Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  async function createNote() {
+    const title = document.getElementById('note-title').value;
+    const content = document.getElementById('note-content').value;
+    try {
+      const res = await fetch('/api/notes', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }, body: JSON.stringify({ title, content }) });
+      const data = await res.json();
+      if (!res.ok) {
+        const msg = data.details ? data.details.map(d => d.message).join(', ') : data.error;
+        return showMsg('note-msg', msg, 'error');
+      }
+      document.getElementById('note-title').value = '';
+      document.getElementById('note-content').value = '';
+      showMsg('note-msg', 'Note saved securely.', 'success');
+      setTimeout(() => { document.getElementById('note-msg').className = 'msg'; }, 2000);
+      loadNotes();
+    } catch { showMsg('note-msg', 'Failed to save note.', 'error'); }
+  }
+
+  async function deleteNote(id) {
+    if (!confirm('Delete this note permanently?')) return;
+    try {
+      const res = await fetch(`/api/notes/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+      if (res.ok) loadNotes();
+    } catch {}
+  }
+
+  // XSS prevention: escape before rendering user content in DOM
+  function escapeHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  }
+</script>
+</body>
+</html>

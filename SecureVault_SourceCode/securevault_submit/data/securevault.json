@@ -1,0 +1,206 @@
+{
+  "users": [
+    {
+      "id": "4c929516-8b9b-42b4-bac4-0af388bd5656",
+      "name": "Olufunke Solanke",
+      "email": "solankeolufunke@gmail.com",
+      "password": "$2b$12$2XiV2/Nsr5A5YiWG/mrtOORafYmm73xQYf8wmuAnL1yo5p2rPDLpq",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-05-09T10:16:20.687Z",
+      "lastLogin": "2026-05-09T10:16:34.515Z"
+    },
+    {
+      "id": "d9387d41-da24-4b96-ac34-f337766778bc",
+      "name": "Test User",
+      "email": "test1778322912141@test.com",
+      "password": "$2b$12$l08Fpwl7JhWhGfKVBpnW6.y7DckT91dXurVFKhE49tHyPvNUdg73O",
+      "role": "user",
+      "isActive": true,
+      "createdAt": "2026-05-09T10:35:12.578Z",
+      "lastLogin": null
+    }
+  ],
+  "notes": [
+    {
+      "id": "a484f514-f948-4016-801c-e3965ca1c041",
+      "userId": "4c929516-8b9b-42b4-bac4-0af388bd5656",
+      "title": "a new app made",
+      "content": "Today...i created a perfect project for my self. by creating a secret vault app for my cybersecurity project",
+      "createdAt": "2026-05-09T10:27:44.605Z",
+      "updatedAt": "2026-05-09T10:27:44.605Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "f28bbc5d-096c-46c4-9f5f-be7ea9f6798f",
+      "timestamp": "2026-05-09T10:16:20.688Z",
+      "userId": "4c929516-8b9b-42b4-bac4-0af388bd5656",
+      "action": "USER_REGISTER",
+      "resource": "/auth/register",
+      "ip": "::1",
+      "status": "success",
+      "details": ""
+    },
+    {
+      "id": "c5326140-99bb-46ec-b3dc-daca67e31749",
+      "timestamp": "2026-05-09T10:16:34.520Z",
+      "userId": "4c929516-8b9b-42b4-bac4-0af388bd5656",
+      "action": "LOGIN_SUCCESS",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "success",
+      "details": ""
+    },
+    {
+      "id": "8767dabf-3b40-4443-a7fb-e0992f1c59a0",
+      "timestamp": "2026-05-09T10:27:44.606Z",
+      "userId": "4c929516-8b9b-42b4-bac4-0af388bd5656",
+      "action": "NOTE_CREATE",
+      "resource": "/notes/a484f514-f948-4016-801c-e3965ca1c041",
+      "ip": "::1",
+      "status": "success",
+      "details": ""
+    },
+    {
+      "id": "ae14d1a6-0eac-44ca-9558-9af44286febd",
+      "timestamp": "2026-05-09T10:35:12.108Z",
+      "userId": "anonymous",
+      "action": "TOKEN_VERIFY_FAIL",
+      "resource": "/",
+      "ip": "::1",
+      "status": "failure",
+      "details": "jwt malformed"
+    },
+    {
+      "id": "2b854438-7eea-46f6-861e-0048bffc7954",
+      "timestamp": "2026-05-09T10:35:12.111Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "5a7a199c-9233-4474-a0c9-a539e9400657",
+      "timestamp": "2026-05-09T10:35:12.114Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "303b1b38-755a-437e-bcda-e18e191d10fc",
+      "timestamp": "2026-05-09T10:35:12.118Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "cef7abfb-5151-430d-bdf2-18b861b2815f",
+      "timestamp": "2026-05-09T10:35:12.121Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "f86c71b1-5292-4273-b96c-091f64cea363",
+      "timestamp": "2026-05-09T10:35:12.123Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "622a3d1d-88a4-40f1-975d-e1e2035d36a3",
+      "timestamp": "2026-05-09T10:35:12.126Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "e0ef3794-1f17-48cb-bba4-fc27cf9d2c75",
+      "timestamp": "2026-05-09T10:35:12.128Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "62be33ce-a486-486b-8f92-41bfc450de68",
+      "timestamp": "2026-05-09T10:35:12.131Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "372bca76-bd2e-4ca5-81a0-f6dc79da0458",
+      "timestamp": "2026-05-09T10:35:12.135Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "bf198194-c753-4679-b83c-2bfb892798ec",
+      "timestamp": "2026-05-09T10:35:12.137Z",
+      "userId": "anonymous",
+      "action": "LOGIN_FAIL",
+      "resource": "/auth/login",
+      "ip": "::1",
+      "status": "failure",
+      "details": ""
+    },
+    {
+      "id": "d9896c06-5c19-4ef2-bd66-aadce5cbcf46",
+      "timestamp": "2026-05-09T10:35:12.139Z",
+      "userId": "anonymous",
+      "action": "RATE_LIMIT_HIT",
+      "resource": "/login",
+      "ip": "::1",
+      "status": "blocked",
+      "details": "Login rate limit exceeded from ::1"
+    },
+    {
+      "id": "ed83eb6e-43f2-4ea7-a204-faefa211792e",
+      "timestamp": "2026-05-09T10:35:12.579Z",
+      "userId": "d9387d41-da24-4b96-ac34-f337766778bc",
+      "action": "USER_REGISTER",
+      "resource": "/auth/register",
+      "ip": "::1",
+      "status": "success",
+      "details": ""
+    },
+    {
+      "id": "a96933ad-4283-41df-a416-3816203616a7",
+      "timestamp": "2026-05-09T10:35:12.582Z",
+      "userId": "anonymous",
+      "action": "RATE_LIMIT_HIT",
+      "resource": "/login",
+      "ip": "::1",
+      "status": "blocked",
+      "details": "Login rate limit exceeded from ::1"
+    }
+  ]
+}
